@@ -4,7 +4,9 @@ from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 from dotenv import load_dotenv
+from logging.handlers import RotatingFileHandler
 import os 
+import logging
 
 
 # load env vars 
@@ -31,9 +33,20 @@ def create_app():
     # Register blueprints 
     from app.routes.auth import auth_bp
     from app.routes.posts import post_bp
-    
+
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
     app.register_blueprint(post_bp, url_prefix="api/posts")
+    
+    # Logging config
+    if not app.debug and not app.testing:
+        handler = RotatingFileHandler('app.log', maxBytes=100000, backupCount=3)
+        handler.setLevel(logging.INFO)
+        formatter = logging.Formatter(
+            '[%(asctime)s] %(levelname)s in %(module)s: %(message)s'
+        )
+        handler.setFormatter(formatter)
+        app.logger.addHandler(handler)
+
 
     return app 
 
