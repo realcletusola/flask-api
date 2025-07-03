@@ -30,9 +30,10 @@ def create_app():
 
     # Register blueprints 
     from app.routes.auth import auth_bp
-    # from app.routes.posts import post_bp
+    from app.routes.posts import post_bp
+    
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
-    # app.register_blueprint(post_bp, url_prefix="api/posts")
+    app.register_blueprint(post_bp, url_prefix="api/posts")
 
     return app 
 
