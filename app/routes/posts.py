@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask import current_app as app
 from app import db 
 from app.models import Post, User 
 
@@ -21,6 +22,7 @@ def create_post():
     db.session.add(post)
     db.session.commit()
 
+    app.logger.info(f"New post created")
     return jsonify({"message": "Post created successfully", "id":post.id}), 201
 
 # Get all posts 
@@ -62,6 +64,7 @@ def update_post(post_id):
     user_id = get_jwt_identity
 
     if post.user_id != user_id:
+        app.logger.warning(f"Unauthorized access attempt by user")
         return jsonify({"message": "Unauthorized"}), 403
     
     data = request.get_json()
