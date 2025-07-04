@@ -9,7 +9,7 @@ auth_bp = Blueprint('auth', __name__)
 # register route 
 @auth_bp.route('/register', methods=['POST'])
 def register():
-    data = register.get_json()
+    data = request.get_json()
     username = data.get("username")
     email = data.get("email")
     password = data.get("password")
@@ -32,22 +32,22 @@ def register():
 
 
 # login user 
-@auth_bp.route('/login', method=['POST'])
+@auth_bp.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
     email = data.get("email")
     password = data.get("password")
 
-    user = User.query.filter(email=email).first()
+    user = User.query.filter_by(email=email).first()
 
     if user and user.check_password(password):
-        token = create_access_token(identity=user.id)
+        token = create_access_token(identity=str(user.id))
         return jsonify({"message": "Login successful", "access_token": token}), 200
     
     return jsonify({"message": "Invalid email or password"}), 401
 
 # profile view 
-@auth_bp.route('/me', method=['GET'])
+@auth_bp.route('/me', methods=['GET'])
 @jwt_required
 def me():
     user_id = get_jwt_identity()

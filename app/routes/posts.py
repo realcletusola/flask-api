@@ -29,7 +29,12 @@ def create_post():
 @post_bp.route('/', methods=['GET'])
 @jwt_required()
 def get_posts():
-    posts = Post.query.all()
+    page = request.args.get("page", 1, type=int)
+    per_page = request.args.get("per_page", 10, type=int)
+
+    pagination = Post.query.pagnate(page=page, per_page=per_page, error_out=False)
+    posts = pagination.items
+
     results = []
     for post in posts:
         results.append({
@@ -39,7 +44,15 @@ def get_posts():
             "author_id": post.user_id,
             "created_at": post.created_at.isoformat()
         })
-    return jsonify(results), 200
+    return jsonify({
+        "total": pagination.total,
+        "pages": pagination.pages,
+        "current_page": pagination.page,
+        "per_page": pagination.per_page,
+        "next": pagination.next_num,
+        "prev": pagination.prev_num,
+        "items": results
+    }), 200
 
 
 # Get a single post 

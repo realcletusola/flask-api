@@ -35,7 +35,7 @@ def create_app():
     from app.routes.posts import post_bp
 
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
-    app.register_blueprint(post_bp, url_prefix="api/posts")
+    app.register_blueprint(post_bp, url_prefix="/api/posts")
     
     # Logging config
     if not app.debug and not app.testing:
