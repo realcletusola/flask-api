@@ -2,9 +2,10 @@
 
 🚀 Getting Started
 🧾 Clone the Repository
-
+```
 git clone https://github.com/realcletusola/flask-api.git
-cd your-repo-name
+cd to the repo name ( cd flask-api)
+```
 
 📦 Install Requirements
 
