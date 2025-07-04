@@ -10,9 +10,12 @@ cd your-repo-name
 
 It's recommended to use a virtual environment:
 
+```
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
+
+```
 
 ⚙️ Environment Variables
 
@@ -25,9 +28,12 @@ JWT_SECRET_KEY=your_jwt_secret
 
 🗃️ Run Database Migrations
 
+```
 flask db init      # Only once
 flask db migrate -m "Initial migration"
 flask db upgrade
+
+```
 
 ▶️ Run the Application
 
@@ -46,32 +52,40 @@ Authorization: Bearer <access_token>
 POST /api/auth/register
 
 Request Body:
+```
 {
   "username": "johndoe",
   "email": "john@example.com",
   "password": "securepass"
 }
 
+```
+
 Response:
+```
 {
   "message": "User registered successfully"
 }
+```
 
 🔐 Login
 
 POST /api/auth/login
 
 Request Body:
+```
 {
   "email": "john@example.com",
   "password": "securepass"
 }
-
+```
 Response:
+```
 {
   "message": "Login successful",
   "access_token": "<JWT_TOKEN>"
 }
+```
 
 📝 Post Endpoints
 
@@ -80,6 +94,7 @@ Response:
 GET /api/posts/?page=1&per_page=10
 
 Response:
+```
 {
   "total": 42,
   "pages": 5,
@@ -97,6 +112,7 @@ Response:
     ...
   ]
 }
+```
 
 🆕 Create Post
 
@@ -107,33 +123,41 @@ Request Headers:
 Authorization: Bearer <access_token>
 
 Request Body:
+```
 {
   "title": "New Post",
   "content": "This is the content of the post"
 }
-
+```
 Response:
+```
 {
   "message": "Post created successfully",
   "id": 15
 }
-
+```
 ⚠️ Error Responses (Common)
 
 401 Unauthorized:
+```
 {
   "msg": "Missing Authorization Header"
 }
 
+```
 422 Unprocessable Entity:
+```
 {
   "msg": "Subject must be a string"
 }
+```
 
 400 Bad Request:
+```
 {
   "message": "Title and content are required"
 }
+```
 
 🧪 Running Tests
 
